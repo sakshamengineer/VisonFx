@@ -68,9 +68,6 @@ def VisionFx(file_upload):
 
     elif ch == "Original":
         Filter_img = image.copy()
-
-    if st.button("Detect Color") :
-        txt = st.write("🖱️ Click anywhere on filtered image")
     
 
     col1,col2 = st.columns(2)
