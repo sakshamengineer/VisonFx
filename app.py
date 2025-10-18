@@ -1,6 +1,7 @@
 import streamlit as st
 import numpy as np
 import cv2
+from streamlit_image_coordinates import streamlit_image_coordinates
 
 st.set_page_config(page_title="VisionFX",page_icon="🤩")
 
@@ -69,6 +70,26 @@ def VisionFx(file_upload):
     elif ch == "Original":
         Filter_img = image.copy()
     
+    but = st.toggle("Detect Colors")
+    if but:
+        st.write("Click Anywhere on Filtered Image to detect color")
+        Filter_img1 = Filter_img.copy()
+        y1,x1 = Filter_img1.shape[:2]
+        if x1 < y1:
+            Filter_img1 = cv2.resize(Filter_img1,(400,500))
+
+        cords = streamlit_image_coordinates(Filter_img1)
+
+        if cords is not None:
+            x,y = int(cords['x']),int(cords['y'])
+            if Filter_img.ndim == 2:
+                greyv = int(np.array(Filter_img)[y,x])
+                rgb = (greyv,greyv,greyv)
+            else:
+                rgb = tuple(map(int,np.array(Filter_img)[y,x,:3]))
+
+            st.write(f"RGB Values Are {rgb}")
+            st.color_picker("Color Preview",value="#%02x%02x%02x"% tuple(rgb))
 
     col1,col2 = st.columns(2)
     with col1:
