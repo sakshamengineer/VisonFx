@@ -73,12 +73,8 @@ def VisionFx(file_upload):
     but = st.toggle("Detect Colors")
     if but:
         st.write("Click Anywhere on Filtered Image to detect color")
-        Filter_img1 = Filter_img.copy()
-        y1,x1 = Filter_img1.shape[:2]
-        if x1 < y1:
-            Filter_img1 = cv2.resize(Filter_img1,(400,500))
 
-        cords = streamlit_image_coordinates(Filter_img1)
+        cords = streamlit_image_coordinates(Filter_img,height=400,width=300)
 
         if cords is not None:
             x,y = int(cords['x']),int(cords['y'])
